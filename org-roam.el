@@ -264,6 +264,9 @@ If no files are found, an empty list is returned."
   (--> cmd
        (shell-command-to-string it)
        (ansi-color-filter-apply it)
+       (if (eq system-type 'windows-nt)
+           (replace-regexp-in-string "\\\\" "/" it)
+         it)
        (split-string it "\n")
        (seq-filter (lambda (s)
                      (not (or (null s) (string= "" s)))) it)))
